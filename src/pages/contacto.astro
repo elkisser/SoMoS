@@ -1,0 +1,29 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import ContactForm from '../components/ContactForm.jsx';
+import Footer from '../components/Footer.jsx';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.jsx';
+import '../styles/base.css';
+import '../styles/animations.css';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto - SoMoS</title>
+    <meta name="description" content="Contáctanos para tu próximo proyecto. Estamos listos para crear experiencias digitales únicas contigo." />
+  </head>
+  <body class="bg-background text-text flex flex-col min-h-screen">
+    <Navbar client:load />
+    
+    <main class="flex-grow pt-24 pb-16">
+      <div class="container mx-auto px-4">
+        <ContactForm client:load />
+      </div>
+    </main>
+    
+    <FloatingWhatsApp client:load />
+    <Footer client:load />
+  </body>
+</html>

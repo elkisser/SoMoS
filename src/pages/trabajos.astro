@@ -1,0 +1,76 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import WorkCard from '../components/WorkCard.jsx';
+import Footer from '../components/Footer.jsx';
+import { motion } from 'framer-motion';
+import '../styles/base.css';
+import '../styles/animations.css';
+
+// Sample projects data
+const projects = [
+  {
+    name: "E-commerce Moderno",
+    description: "Plataforma de comercio electrónico con diseño responsive y experiencia de usuario optimizada.",
+    tags: ["React", "Node.js", "MongoDB"]
+  },
+  {
+    name: "App de Gestión",
+    description: "Aplicación web para gestión empresarial con dashboard interactivo y reportes en tiempo real.",
+    tags: ["Vue.js", "Firebase", "Chart.js"]
+  },
+  {
+    name: "Portfolio Creativo",
+    description: "Sitio web portfolio para artista con galería interactiva y sistema de contacto integrado.",
+    tags: ["Astro", "Tailwind", "Netlify"]
+  },
+  {
+    name: "Blog Tecnológico",
+    description: "Plataforma de blogging con sistema de comentarios y integración con redes sociales.",
+    tags: ["Next.js", "GraphQL", "Prisma"]
+  },
+  {
+    name: "Dashboard Analytics",
+    description: "Panel de control con métricas empresariales y visualización de datos avanzada.",
+    tags: ["React", "D3.js", "Python"]
+  },
+  {
+    name: "Mobile App UI",
+    description: "Diseño de interfaz de usuario para aplicación móvil con prototipo interactivo.",
+    tags: ["Figma", "Prototyping", "UI/UX"]
+  }
+];
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trabajos - SoMoS</title>
+    <meta name="description" content="Portfolio de trabajos realizados por SoMoS. Descubre nuestros proyectos más recientes en desarrollo web y diseño." />
+  </head>
+  <body class="bg-background text-text">
+    <Navbar client:load />
+    
+    <main class="pt-24 pb-16">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">
+            Nuestros <span class="text-primary">Trabajos</span>
+          </h1>
+          <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+            Descubre algunos de nuestros proyectos más recientes donde combinamos 
+            diseño innovador con tecnología de vanguardia.
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => (
+            <WorkCard project={project} index={index} client:load />
+          ))}
+        </div>
+      </div>
+    </main>
+    
+    <Footer client:load />
+  </body>
+</html>
