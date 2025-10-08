@@ -139,7 +139,7 @@ const Hero = () => {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
+        className="absolute bottom-8 transform -translate-x-1/2 hidden md:block"
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-gray-400 text-sm">Descubre más</span>
