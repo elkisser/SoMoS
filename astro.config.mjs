@@ -4,7 +4,6 @@ import react from '@astrojs/react';
 import netlify from '@astrojs/netlify';
 
 export default defineConfig({
-  output: 'server',
-  adapter: netlify(),
+  output: 'static',
   integrations: [tailwind({ applyBaseStyles: false }), react()],
 });
