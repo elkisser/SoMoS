@@ -81,7 +81,7 @@ const Footer = () => {
                     SoMoS
                   </span>
                   <span className="text-xs text-primary font-medium tracking-wider">
-                    DIGITAL
+                    ENV
                   </span>
                 </div>
               </div>
@@ -209,23 +209,10 @@ const Footer = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="border-t border-gray-700/50 py-6"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-gray-400 text-sm">
               © {currentYear} SoMoS Digital. Todos los derechos reservados.
             </p>
-            
-            {/* Legal Links */}
-            <div className="flex gap-6 text-sm">
-              <a href="/privacidad" className="text-gray-400 hover:text-primary transition-colors duration-300">
-                Privacidad
-              </a>
-              <a href="/terminos" className="text-gray-400 hover:text-primary transition-colors duration-300">
-                Términos
-              </a>
-              <a href="/cookies" className="text-gray-400 hover:text-primary transition-colors duration-300">
-                Cookies
-              </a>
-            </div>
           </div>
         </motion.div>
       </div>

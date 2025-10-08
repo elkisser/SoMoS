@@ -120,7 +120,7 @@ const Navbar = () => {
                   <span className="text-primary">S</span>
                 </span>
                 <span className="text-xs text-primary font-medium tracking-wider">
-                  DIGITAL
+                  ENV
                 </span>
               </div>
             </motion.a>

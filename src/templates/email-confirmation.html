@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias por contactarnos - SoMoS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #6366f1;
+            font-weight: 600;
+        }
+        
+        .message {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .highlight-box h3 {
+            color: #6366f1;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .contact-info {
+            background: rgba(26, 26, 46, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .contact-info h3 {
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .footer {
+            background: rgba(15, 15, 35, 0.8);
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        
+        .footer p {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #6366f1;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header, .content, .footer {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">SoMoS</div>
+            <h1>¡Gracias por contactarnos!</h1>
+            <p>Hemos recibido tu mensaje correctamente</p>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">Hola {{name}},</div>
+            
+            <div class="message">
+                Muchas gracias por ponerte en contacto con nosotros. Hemos recibido tu mensaje y estamos emocionados de conocer más sobre tu proyecto.
+            </div>
+            
+            <div class="highlight-box">
+                <h3>🎯 ¿Qué sigue ahora?</h3>
+                <p>Nuestro equipo revisará tu consulta y se pondrá en contacto contigo dentro de las próximas <strong>24 horas</strong> para discutir los detalles de tu proyecto y cómo podemos ayudarte a hacerlo realidad.</p>
+            </div>
+            
+            <div class="message">
+                Mientras tanto, te invitamos a explorar nuestros trabajos anteriores y conocer más sobre nuestros servicios. Estamos aquí para convertir tus ideas en experiencias digitales extraordinarias.
+            </div>
+            
+            <div class="contact-info">
+                <h3>📞 ¿Necesitas contactarnos urgentemente?</h3>
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>somos.env@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>+54 343 508-6453 (WhatsApp)</span>
+                </div>
+                <div class="contact-item">
+                    <span>🕒</span>
+                    <span>Lun - Vie: 8:00 - 18:00</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 SoMoS - Soluciones Modernas y Software</p>
+            <p>Creando experiencias digitales únicas</p>
+            
+            <div class="social-links">
+                <a href="https://wa.me/3435086453" class="social-link">📱</a>
+                <a href="mailto:somos.env@gmail.com" class="social-link">📧</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

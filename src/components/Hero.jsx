@@ -119,8 +119,8 @@ const Hero = () => {
           className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-gray-700 max-w-2xl mx-auto"
         >
           {[
-            { number: '50+', label: 'Proyectos' },
-            { number: '3+', label: 'Años' },
+            { number: '10+', label: 'Proyectos' },
+            { number: '2+', label: 'Años' },
             { number: '100%', label: 'Clientes Satisfechos' }
           ].map((stat, index) => (
             <div key={index} className="text-center">

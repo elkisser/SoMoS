@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 
 const FloatingWhatsApp = () => {
-  const phoneNumber = "1234567890"; // Reemplaza con tu número
+  const phoneNumber = "3435086453"; // Reemplaza con tu número
   
   return (
     <motion.a

@@ -13,14 +13,14 @@ const CTA = () => {
       title: 'Chat Directo',
       description: 'Hablemos por WhatsApp',
       action: 'Iniciar Chat',
-      href: 'https://wa.me/tunumero'
+      href: 'https://wa.me/3435086453'
     },
     {
       icon: Mail,
       title: 'Email',
       description: 'Envíanos un correo',
       action: 'Enviar Email',
-      href: 'mailto:hola@somos.com'
+      href: 'mailto:somos.env@gmail.com'
     },
     {
       icon: Calendar,

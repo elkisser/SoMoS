@@ -23,15 +23,36 @@ const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset form after success
-    setTimeout(() => setIsSubmitted(false), 5000);
+    try {
+      // Enviar datos a la función serverless
+      const response = await fetch('/.netlify/functions/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Éxito: mostrar mensaje de confirmación
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        
+        // Reset form after success
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        // Error: mostrar mensaje de error
+        console.error('Error enviando formulario:', result.error);
+        alert('Hubo un error al enviar el mensaje. Por favor, intenta nuevamente o contáctanos directamente.');
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+      alert('Error de conexión. Por favor, verifica tu conexión a internet e intenta nuevamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputFields = [
@@ -235,9 +256,9 @@ const ContactForm = () => {
         className="grid md:grid-cols-3 gap-6 mt-12"
       >
         {[
-          { icon: Mail, title: 'Email', content: 'hola@somos.com', href: 'mailto:hola@somos.com' },
-          { icon: MessageSquare, title: 'WhatsApp', content: '+54 11 1234-5678', href: 'https://wa.me/541112345678' },
-          { icon: User, title: 'Horario', content: 'Lun - Vie: 9:00 - 18:00', href: null }
+          { icon: Mail, title: 'Email', content: 'somos.env@gmail.com', href: 'mailto:somos.env@gmail.com' },
+          { icon: MessageSquare, title: 'WhatsApp', content: '+54 343 508-6453', href: 'https://wa.me/3435086453' },
+          { icon: User, title: 'Horario', content: 'Lun - Vie: 8:00 - 18:00', href: null }
         ].map((item, index) => (
           <motion.a
             key={item.title}
