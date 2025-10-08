@@ -6,7 +6,9 @@ const Hero = () => {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
 
   useEffect(() => {
-    setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    if (typeof window !== 'undefined') {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    }
   }, []);
 
   return (
