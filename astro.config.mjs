@@ -5,5 +5,9 @@ import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   output: 'static',
-  integrations: [tailwind({ applyBaseStyles: false }), react()],
+  integrations: [
+    tailwind({ applyBaseStyles: false }),
+    react(),
+    netlify()
+  ],
 });
