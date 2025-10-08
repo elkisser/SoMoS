@@ -66,14 +66,12 @@ const Footer = () => {
               transition={{ duration: 0.6 }}
               className="lg:col-span-1"
             >
-              {/* Logo */}
+              {/* Logo con imagen real y animación detrás */}
               <div className="flex items-center gap-3 mb-6">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-                    <Sparkles className="w-6 h-6 text-white" />
-                  </div>
+                <div className="relative w-12 h-12 flex items-center justify-center">
+                  <img src="/logo_render.png" alt="Logo SoMoS" className="w-8 h-8 rounded-lg z-10" />
                   <motion.div
-                    className="absolute inset-0 border-2 border-primary/30 rounded-xl"
+                    className="absolute inset-0 border-2 border-primary/30 rounded-xl z-0"
                     animate={{ rotate: 360 }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                   />

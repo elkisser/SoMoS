@@ -9,23 +9,56 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState('inicio');
 
   useEffect(() => {
+    // Detectar sección inicial basada en la ruta actual
+    const pathname = window.location.pathname;
+    if (pathname === '/trabajos') {
+      setActiveSection('trabajos');
+    } else if (pathname === '/contacto') {
+      setActiveSection('contacto');
+    } else {
+      setActiveSection('inicio');
+    }
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      // Si hay margen en el body, el scroll inicial nunca será 0
+      // Ajustamos el umbral para permitir transparencia en el inicio
+      setScrolled(window.scrollY > 60);
       
-      // Detectar sección activa para highlights
-      const sections = ['inicio', 'about', 'services', 'cta'];
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+      // Solo detectar secciones por scroll si estamos en la página principal
+      const pathname = window.location.pathname;
+      if (pathname === '/' || pathname === '') {
+        // Solo incluimos las secciones que deben aparecer en la navbar
+        const sections = ['inicio', 'about', 'services'];
+        const current = sections.find(section => {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            return rect.top <= 100 && rect.bottom >= 100;
+          }
+          return false;
+        });
+        
+        // Si encontramos una sección válida, la activamos
+        if (current) {
+          setActiveSection(current);
+        } else {
+          // Si no estamos en ninguna sección (ej: estamos en CTA o footer)
+          // verificamos si pasamos la sección de servicios
+          const servicesElement = document.getElementById('services');
+          if (servicesElement) {
+            const rect = servicesElement.getBoundingClientRect();
+            // Si ya pasamos servicios (está arriba de la pantalla), mantenemos services activo
+            if (rect.bottom < 100) {
+              setActiveSection('services');
+            }
+          }
         }
-        return false;
-      });
-      if (current) setActiveSection(current);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Ejecutar una vez al cargar
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -33,8 +66,8 @@ const Navbar = () => {
     { name: 'Inicio', href: '/', section: 'inicio' },
     { name: 'Nosotros', href: '#about', section: 'about' },
     { name: 'Servicios', href: '#services', section: 'services' },
-    { name: 'Trabajos', href: '/trabajos' },
-    { name: 'Contacto', href: '/contacto', section: 'cta' }
+    { name: 'Trabajos', href: '/trabajos', section: 'trabajos' },
+    { name: 'Contacto', href: '/contacto', section: 'contacto' }
   ];
 
   const handleNavClick = (href, section) => {
@@ -63,19 +96,17 @@ const Navbar = () => {
       >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex justify-between items-center py-3">
-            {/* Logo Mejorado */}
+            {/* Logo Mejorado con imagen real y animación detrás */}
             <motion.a
               href="/"
               className="flex items-center gap-3 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-                  <Sparkles className="w-5 h-5 text-white" />
-                </div>
+              <div className="relative w-12 h-12 flex items-center justify-center">
+                <img src="/logo_render.png" alt="Logo SoMoS" className="w-8 h-8 rounded-lg z-10" />
                 <motion.div
-                  className="absolute inset-0 border-2 border-primary/30 rounded-xl"
+                  className="absolute inset-0 border-2 border-primary/30 rounded-xl z-0"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 />
@@ -185,10 +216,15 @@ const Navbar = () => {
               className="absolute top-0 right-0 bottom-0 w-80 bg-nav border-l border-gray-700 shadow-2xl"
             >
               <div className="p-6">
-                {/* Logo en Mobile */}
+                {/* Logo en Mobile con imagen y animación detrás */}
                 <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-700">
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-white" />
+                  <div className="relative w-8 h-8 flex items-center justify-center">
+                    <img src="/logo_render.png" alt="Logo SoMoS" className="w-6 h-6 rounded z-10" />
+                    <motion.div
+                      className="absolute inset-0 border-2 border-primary/30 rounded-lg z-0"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    />
                   </div>
                   <span className="text-xl font-bold">
                     <span className="text-primary">S</span>
