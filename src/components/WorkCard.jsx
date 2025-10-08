@@ -3,7 +3,7 @@ import { ExternalLink } from 'lucide-react';
 
 const WorkCard = ({ project, index }) => {
   const handleClick = () => {
-    if (project.link) {
+    if (project.link && typeof window !== 'undefined') {
       window.open(project.link, '_blank');
     }
   };

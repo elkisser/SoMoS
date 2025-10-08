@@ -9,6 +9,8 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState('inicio');
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // Detectar sección inicial basada en la ruta actual
     const pathname = window.location.pathname;
     if (pathname === '/trabajos') {
