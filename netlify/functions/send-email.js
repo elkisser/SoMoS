@@ -2,8 +2,14 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 
-// Configuración del transporter de email
+// Configuración del transporter de email usando DSN
 const createTransporter = () => {
+  // Usar MAILER_DSN si está disponible, sino usar configuración SMTP tradicional
+  if (process.env.MAILER_DSN) {
+    return nodemailer.createTransporter(process.env.MAILER_DSN);
+  }
+  
+  // Fallback a configuración SMTP tradicional
   return nodemailer.createTransporter({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: process.env.SMTP_PORT || 587,
