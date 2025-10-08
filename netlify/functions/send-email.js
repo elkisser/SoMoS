@@ -6,24 +6,26 @@ const path = require('path');
 const createTransporter = () => {
   // Usar MAILER_DSN si está disponible, sino usar configuración SMTP tradicional
   if (process.env.MAILER_DSN) {
-    return nodemailer.createTransporter(process.env.MAILER_DSN);
+    return nodemailer.createTransport(process.env.MAILER_DSN);
   }
-  
-  // Fallback a configuración SMTP tradicional
-  return nodemailer.createTransporter({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: process.env.SMTP_PORT || 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
-    }
-  });
+  // Fallback a configuración SMTP tradicional SOLO si no existe MAILER_DSN
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: process.env.SMTP_PORT || 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+  }
+  throw new Error('No se encontró configuración de correo (MAILER_DSN o SMTP_USER/SMTP_PASS)');
 };
 
 // Función para leer y procesar plantillas HTML
 const getEmailTemplate = (templateName, data) => {
-  const templatePath = path.join(__dirname, '../../src/templates', `${templateName}.html`);
+  const templatePath = path.resolve(__dirname, '../../src/templates', `${templateName}.html`);
   let template = fs.readFileSync(templatePath, 'utf8');
   
   // Reemplazar variables en la plantilla
