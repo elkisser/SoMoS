@@ -1,32 +1,54 @@
 ---
-import Navbar from '../components/Navbar.jsx';
-import WorkCard from '../components/WorkCard.jsx';
-import Footer from '../components/Footer.jsx';
-import '../styles/base.css';
-import '../styles/animations.css';
+import Navbar from "../components/Navbar.jsx";
+import WorkCard from "../components/WorkCard.jsx";
+import Footer from "../components/Footer.jsx";
+import "../styles/base.css";
+import "../styles/animations.css";
 
 // Sample projects data
 const projects = [
   {
     name: "Portfolio Personal - Sebastián Kisser",
-    description: "Portafolio web moderno y responsivo con experiencia de usuario inmersiva. Incluye animaciones fluidas, efectos visuales avanzados, interfaz completamente bilingüe (Español/Inglés), cursor personalizado interactivo, sistema de navegación con scroll spy, timeline de experiencia animada, integración directa con WhatsApp y optimización de performance con lazy loading.",
-    tags: ["HTML5", "CSS3", "JavaScript ES6+", "Font Awesome", "Google Fonts", "Intersection Observer API", "LocalStorage", "Geolocation", "Responsive Design", "PWA Ready", "Performance Optimized"],
+    description:
+      "Portafolio web moderno y responsivo con experiencia de usuario inmersiva. Incluye animaciones fluidas, efectos visuales avanzados, interfaz completamente bilingüe (Español/Inglés), cursor personalizado interactivo, sistema de navegación con scroll spy, timeline de experiencia animada, integración directa con WhatsApp y optimización de performance con lazy loading.",
+    tags: [
+      "HTML5",
+      "CSS3",
+      "JavaScript ES6+",
+      "Font Awesome",
+      "Google Fonts",
+      "Intersection Observer API",
+      "LocalStorage",
+      "Geolocation",
+      "Responsive Design",
+      "PWA Ready",
+      "Performance Optimized",
+    ],
     video: "/PortFolio/PortFolio.mp4",
-    link: "https://portfolioskisser.netlify.app/"
+    link: "https://portfolioskisser.netlify.app/",
   },
   {
     name: "LuminaEdit",
-    description: "Aplicación web avanzada de eliminación de fondos con IA 100% local y privada. Combina TensorFlow.js con aceleración WebGL para procesamiento en tiempo real sin comprometer la privacidad del usuario.",
-    tags: ["TensorFlow.js", "JavaScript ES6+", "Tailwind CSS", "Netlify", "WebGL", "Node.js"],
+    description:
+      "Aplicación web avanzada de eliminación de fondos con IA 100% local y privada. Combina TensorFlow.js con aceleración WebGL para procesamiento en tiempo real sin comprometer la privacidad del usuario.",
+    tags: [
+      "TensorFlow.js",
+      "JavaScript ES6+",
+      "Tailwind CSS",
+      "Netlify",
+      "WebGL",
+      "Node.js",
+    ],
     video: "/LuminaEdit/LuminaEdit Desktop.mp4",
-    link: "https://luminaedit.netlify.app/"
+    link: "https://luminaedit.netlify.app/",
   },
   {
     name: "The World is Beautiful",
-    description: "Experiencia web inmersiva e interactiva que te lleva en un viaje épico a través del sistema solar. Explora cada planeta con animaciones fluidas, información detallada y efectos visuales espectaculares.",
+    description:
+      "Experiencia web inmersiva e interactiva que te lleva en un viaje épico a través del sistema solar. Explora cada planeta con animaciones fluidas, información detallada y efectos visuales espectaculares.",
     tags: ["HTML5", "CSS3", "JavaScript ES6+", "Anime.js", "Google Fonts"],
     video: "/TheWorldIsBeautiful/TheWorldIsBeautifull.mp4",
-    link: "https://the-worldisbeautiful.netlify.app/"
+    link: "https://the-worldisbeautiful.netlify.app/",
   },
 ];
 ---
@@ -36,12 +58,15 @@ const projects = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trabajos - SoMoS</title>
-    <meta name="description" content="Portfolio de trabajos realizados por SoMoS. Descubre nuestros proyectos más recientes en desarrollo web y diseño." />
+    <meta
+      name="description"
+      content="Portfolio de trabajos realizados por SoMoS. Descubre nuestros proyectos más recientes en desarrollo web y diseño."
+    />
     <link rel="icon" type="image/png" href="/logo_render.png" />
   </head>
   <body class="bg-background text-text">
     <Navbar client:load />
-    
+
     <main class="pt-24 pb-16">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
@@ -49,19 +74,53 @@ const projects = [
             Nuestros <span class="text-primary">Trabajos</span>
           </h1>
           <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-            Descubre algunos de nuestros proyectos más recientes donde combinamos 
-            diseño innovador con tecnología de vanguardia.
+            Descubre algunos de nuestros proyectos más recientes donde
+            combinamos diseño innovador con tecnología de vanguardia.
           </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <WorkCard project={project} index={index} client:load />
-          ))}
+          {
+            projects.map((project, index) => (
+              <WorkCard project={project} index={index} client:load />
+            ))
+          }
         </div>
       </div>
     </main>
-    
+
     <Footer client:load />
+
+    <script>
+      // Aplicar zoom automático para resoluciones pequeñas
+      function applyAutoZoom() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        // Si la resolución es igual o menor a 1368x768, aplicar zoom del 80%
+        if (width <= 1368 && height <= 768) {
+          document.body.style.zoom = "0.8";
+          console.log(
+            "Zoom automático aplicado: 80% para resolución",
+            width + "x" + height,
+          );
+        } else {
+          document.body.style.zoom = "1";
+          console.log(
+            "Zoom normal: 100% para resolución",
+            width + "x" + height,
+          );
+        }
+      }
+
+      // Aplicar zoom al cargar la página
+      document.addEventListener("DOMContentLoaded", applyAutoZoom);
+
+      // Aplicar zoom al redimensionar la ventana
+      window.addEventListener("resize", applyAutoZoom);
+
+      // Aplicar zoom inmediatamente (por si el DOM ya está cargado)
+      applyAutoZoom();
+    </script>
   </body>
 </html>

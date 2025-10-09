@@ -33,17 +33,67 @@ const createTransporter = () => {
 
 // Función para leer y procesar plantillas HTML
 const getEmailTemplate = (templateName, data) => {
-  // Usar process.cwd() para asegurarnos de construir rutas relativas al repo raíz
-  const templatePath = path.join(process.cwd(), 'src', 'templates', `${templateName}.html`);
-  let template = fs.readFileSync(templatePath, 'utf8');
-  
-  // Reemplazar variables en la plantilla
-  Object.keys(data).forEach(key => {
-    const regex = new RegExp(`{{${key}}}`, 'g');
-    template = template.replace(regex, data[key]);
-  });
-  
-  return template;
+  try {
+    // Intentar múltiples rutas posibles para las plantillas
+    const possiblePaths = [
+      path.join(process.cwd(), 'src', 'templates', `${templateName}.html`),
+      path.join(__dirname, '..', '..', 'src', 'templates', `${templateName}.html`),
+      path.join('/opt/build/repo/src/templates', `${templateName}.html`)
+    ];
+    
+    let template = null;
+    for (const templatePath of possiblePaths) {
+      try {
+        if (fs.existsSync(templatePath)) {
+          template = fs.readFileSync(templatePath, 'utf8');
+          console.log(`Template encontrado en: ${templatePath}`);
+          break;
+        }
+      } catch (err) {
+        console.log(`No se pudo leer template en: ${templatePath}`);
+      }
+    }
+    
+    // Si no se encuentra la plantilla, usar una plantilla básica
+    if (!template) {
+      console.warn(`Template ${templateName} no encontrado, usando plantilla básica`);
+      if (templateName === 'email-confirmation') {
+        template = `
+          <html>
+            <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #4F46E5;">¡Gracias por contactarnos, {{name}}!</h2>
+              <p>Hemos recibido tu mensaje y te contactaremos dentro de las próximas 24 horas.</p>
+              <p>Saludos,<br>El equipo de SoMoS</p>
+            </body>
+          </html>
+        `;
+      } else {
+        template = `
+          <html>
+            <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #4F46E5;">Nueva consulta de {{name}}</h2>
+              <p><strong>Email:</strong> {{email}}</p>
+              <p><strong>Mensaje:</strong></p>
+              <p>{{message}}</p>
+              <p><strong>Fecha:</strong> {{timestamp}}</p>
+            </body>
+          </html>
+        `;
+      }
+    }
+    
+    // Reemplazar variables en la plantilla
+    Object.keys(data).forEach(key => {
+      const regex = new RegExp(`{{${key}}}`, 'g');
+      template = template.replace(regex, data[key] || '');
+    });
+    
+    return template;
+  } catch (error) {
+    console.error('Error procesando template:', error);
+    // Plantilla de emergencia muy básica
+    return `<html><body><h2>Mensaje de SoMoS</h2><p>Datos: ${JSON.stringify(data)}</p></body></html>`;
+  }
 };
 
 // Función para enviar email de confirmación al cliente
@@ -89,6 +139,16 @@ const sendNotificationEmail = async (transporter, clientData) => {
 };
 
 exports.handler = async (event, context) => {
+  console.log('=== INICIO FUNCIÓN SEND-EMAIL ===');
+  console.log('Método HTTP:', event.httpMethod);
+  console.log('Variables de entorno disponibles:', {
+    MAILER_DSN: !!process.env.MAILER_DSN,
+    SMTP_USER: !!process.env.SMTP_USER,
+    SMTP_PASS: !!process.env.SMTP_PASS,
+    SMTP_HOST: process.env.SMTP_HOST,
+    TEAM_EMAIL: process.env.TEAM_EMAIL
+  });
+
   // Solo permitir métodos POST
   if (event.httpMethod !== 'POST') {
     return {
@@ -101,9 +161,11 @@ exports.handler = async (event, context) => {
     // Parsear los datos del formulario
     const formData = JSON.parse(event.body);
     const { name, email, message } = formData;
+    console.log('Datos recibidos:', { name, email, messageLength: message?.length });
 
     // Validar datos requeridos
     if (!name || !email || !message) {
+      console.log('Error: Faltan datos requeridos');
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Faltan datos requeridos' })
@@ -113,6 +175,7 @@ exports.handler = async (event, context) => {
     // Validar formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      console.log('Error: Formato de email inválido');
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Formato de email inválido' })
@@ -120,7 +183,9 @@ exports.handler = async (event, context) => {
     }
 
     // Crear transporter
-  const transporter = createTransporter();
+    console.log('Creando transporter...');
+    const transporter = createTransporter();
+    console.log('Transporter creado exitosamente');
 
     // Preparar datos del cliente
     const clientData = {
@@ -130,6 +195,7 @@ exports.handler = async (event, context) => {
     };
 
     // Enviar emails en paralelo
+    console.log('Enviando emails...');
     const [confirmationResult, notificationResult] = await Promise.all([
       sendConfirmationEmail(transporter, clientData),
       sendNotificationEmail(transporter, clientData)
