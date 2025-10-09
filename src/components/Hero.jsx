@@ -49,7 +49,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-8"
+          className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full mt-8 px-4 py-2 mb-8"
         >
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-primary text-sm font-medium">Innovación Digital</span>
@@ -139,7 +139,7 @@ const Hero = () => {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 transform -translate-x-1/2 hidden md:block"
+        className="absolute bottom-8 transform -translate-x-1/2 hidden sm:block"
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-gray-400 text-sm">Descubre más</span>

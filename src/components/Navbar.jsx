@@ -10,77 +10,107 @@ const Navbar = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
-    // Detectar sección inicial basada en la ruta actual
-    const pathname = window.location.pathname;
-    if (pathname === '/trabajos') {
-      setActiveSection('trabajos');
-    } else if (pathname === '/contacto') {
-      setActiveSection('contacto');
-    } else {
-      setActiveSection('inicio');
-    }
 
     const handleScroll = () => {
-      // Si hay margen en el body, el scroll inicial nunca será 0
-      // Ajustamos el umbral para permitir transparencia en el inicio
+      // Detectar scroll para efecto visual
       setScrolled(window.scrollY > 60);
       
-      // Solo detectar secciones por scroll si estamos en la página principal
+      // Solo detectar secciones si estamos en la página principal
       const pathname = window.location.pathname;
       if (pathname === '/' || pathname === '') {
-        // Solo incluimos las secciones que deben aparecer en la navbar
-        const sections = ['inicio', 'about', 'services'];
-        const current = sections.find(section => {
+        const sections = ['inicio', 'about', 'services', 'trabajos', 'contacto'];
+        let currentActive = 'inicio';
+        
+        sections.forEach(section => {
           const element = document.getElementById(section);
           if (element) {
             const rect = element.getBoundingClientRect();
-            return rect.top <= 100 && rect.bottom >= 100;
-          }
-          return false;
-        });
-        
-        // Si encontramos una sección válida, la activamos
-        if (current) {
-          setActiveSection(current);
-        } else {
-          // Si no estamos en ninguna sección (ej: estamos en CTA o footer)
-          // verificamos si pasamos la sección de servicios
-          const servicesElement = document.getElementById('services');
-          if (servicesElement) {
-            const rect = servicesElement.getBoundingClientRect();
-            // Si ya pasamos servicios (está arriba de la pantalla), mantenemos services activo
-            if (rect.bottom < 100) {
-              setActiveSection('services');
+            // Más tolerancia para mejor detección
+            if (rect.top <= 200 && rect.bottom >= 200) {
+              currentActive = section;
             }
           }
+        });
+        
+        // Detectar si hemos pasado la sección de servicios
+        const servicesElement = document.getElementById('services');
+        if (servicesElement) {
+          const rect = servicesElement.getBoundingClientRect();
+          if (rect.top < 0 && rect.bottom < window.innerHeight * 0.5) {
+            currentActive = 'services';
+          }
         }
+        
+        setActiveSection(currentActive);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Ejecutar una vez al cargar
-    
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Configurar observer para mejor detección
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && (window.location.pathname === '/' || window.location.pathname === '')) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    // Observar las secciones
+    const sectionsToObserve = ['inicio', 'about', 'services'];
+    sectionsToObserve.forEach(section => {
+      const element = document.getElementById(section);
+      if (element) observer.observe(element);
+    });
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const navigationItems = [
-    { name: 'Inicio', href: '/', section: 'inicio' },
+    { name: 'Inicio', href: '#inicio', section: 'inicio' },
     { name: 'Nosotros', href: '#about', section: 'about' },
     { name: 'Servicios', href: '#services', section: 'services' },
-    { name: 'Trabajos', href: '/trabajos', section: 'trabajos' },
-    { name: 'Contacto', href: '/contacto', section: 'contacto' }
+    { name: 'Trabajos', href: '/trabajos' },
+    { name: 'Contacto', href: '/contacto' }
   ];
 
   const handleNavClick = (href, section) => {
     if (href.startsWith('#')) {
       const element = document.getElementById(href.substring(1));
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const offset = 80; // Compensar altura de navbar
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     }
     setActiveSection(section);
     setMobileMenuOpen(false);
+  };
+
+  const handleLogoClick = (e) => {
+    if (typeof window !== 'undefined' && (window.location.pathname === '/' || window.location.pathname === '')) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      setActiveSection('inicio');
+    }
   };
 
   return (
@@ -92,30 +122,27 @@ const Navbar = () => {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           scrolled 
-            ? 'bg-nav/95 backdrop-blur-lg shadow-2xl shadow-black/30 border-b border-primary/10' 
-            : 'bg-transparent'
+            ? 'bg-nav/95 backdrop-blur-lg shadow-2xl shadow-black/30 border-b border-primary/10 py-2' 
+            : 'bg-transparent py-4'
         )}
+        style={{ zIndex: 1000 }} // Asegurar z-index alto
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex justify-between items-center py-3">
-            {/* Logo Mejorado con imagen real y animación detrás */}
+          <div className="flex justify-between items-center">
+            {/* Logo */}
             <motion.a
               href="/"
               className="flex items-center gap-3 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={(e) => {
-                // Si ya estamos en la home, evitar recargar y hacer scroll suave
-                if (typeof window !== 'undefined' && (window.location.pathname === '/' || window.location.pathname === '')) {
-                  e.preventDefault();
-                  const el = document.getElementById('inicio');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  setActiveSection('inicio');
-                }
-              }}
+              onClick={handleLogoClick}
             >
-              <div className="relative w-12 h-12 flex items-center justify-center">
-                <img src="/logo_render.png" alt="Logo SoMoS" className="w-8 h-8 rounded-lg z-10" />
+              <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                <img 
+                  src="/logo_render.png" 
+                  alt="Logo SoMoS" 
+                  className="w-6 h-6 md:w-8 md:h-8 rounded-lg z-10" 
+                />
                 <motion.div
                   className="absolute inset-0 border-2 border-primary/30 rounded-xl z-0"
                   animate={{ rotate: 360 }}
@@ -123,11 +150,11 @@ const Navbar = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight">
+                <span className="text-lg md:text-xl font-bold tracking-tight">
                   <span className="text-primary">S</span>
-                  <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">o</span>
+                  <span className="text-white">o</span>
                   <span className="text-primary">M</span>
-                  <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">o</span>
+                  <span className="text-white">o</span>
                   <span className="text-primary">S</span>
                 </span>
                 <span className="text-xs text-primary font-medium tracking-wider">
@@ -143,26 +170,19 @@ const Navbar = () => {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => {
-                    // Si es ancla, hacemos scroll suave
                     if (item.href.startsWith('#')) {
                       e.preventDefault();
                       handleNavClick(item.href, item.section);
-                      return;
-                    }
-
-                    // Si es '/', y ya estamos en la home, prevenir reload y scrollear al inicio
-                    if (item.href === '/' && (typeof window !== 'undefined') && (window.location.pathname === '/' || window.location.pathname === '')) {
+                    } else if (item.href === '/') {
                       e.preventDefault();
-                      const el = document.getElementById('inicio');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      setActiveSection('inicio');
+                      handleLogoClick(e);
                     }
                   }}
                   className={cn(
-                    "relative px-4 py-2 rounded-lg font-medium transition-all duration-300",
+                    "relative px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm",
                     activeSection === item.section
                       ? "text-primary"
-                      : "text-gray-300 hover:text-white"
+                      : "text-gray-300 hover:text-white hover:bg-white/5"
                   )}
                   whileHover={{ y: -2 }}
                   whileTap={{ y: 0 }}
@@ -184,7 +204,7 @@ const Navbar = () => {
               {/* CTA Button */}
               <motion.a
                 href="/contacto"
-                className="ml-4 px-6 py-2 bg-gradient-to-r from-primary to-primary/80 text-background rounded-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 hover:scale-105"
+                className="ml-4 px-6 py-2 bg-gradient-to-r from-primary to-primary/80 text-background rounded-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 text-sm"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -201,11 +221,12 @@ const Navbar = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menú"
             >
               {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-gray-300" />
+                <X className="w-5 h-5 md:w-6 md:h-6 text-gray-300" />
               ) : (
-                <Menu className="w-6 h-6 text-gray-300" />
+                <Menu className="w-5 h-5 md:w-6 md:h-6 text-gray-300" />
               )}
             </motion.button>
           </div>
@@ -215,19 +236,14 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden pt-20"
-          >
+          <>
             {/* Backdrop */}
-            <button
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-              aria-label="Cerrar menú"
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden"
               onClick={() => setMobileMenuOpen(false)}
-              onKeyDown={(e) => { if (e.key === 'Escape') setMobileMenuOpen(false); }}
             />
             
             {/* Menu Content */}
@@ -236,28 +252,9 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="absolute top-0 right-0 bottom-0 w-80 bg-nav border-l border-gray-700 shadow-2xl"
+              className="fixed top-0 right-0 bottom-0 w-80 z-50 bg-nav border-l border-gray-700 shadow-2xl lg:hidden"
             >
-              <div className="p-6">
-                {/* Logo en Mobile con imagen y animación detrás */}
-                <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-700">
-                  <div className="relative w-8 h-8 flex items-center justify-center">
-                    <img src="/logo_render.png" alt="Logo SoMoS" className="w-6 h-6 rounded z-10" />
-                    <motion.div
-                      className="absolute inset-0 border-2 border-primary/30 rounded-lg z-0"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    />
-                  </div>
-                  <span className="text-xl font-bold">
-                    <span className="text-primary">S</span>
-                    <span className="text-white">o</span>
-                    <span className="text-primary">M</span>
-                    <span className="text-white">o</span>
-                    <span className="text-primary">S</span>
-                  </span>
-                </div>
-
+              <div className="p-6 pt-20 h-full overflow-y-auto">
                 {/* Navigation Links */}
                 <div className="space-y-2">
                   {navigationItems.map((item, index) => (
@@ -271,7 +268,7 @@ const Navbar = () => {
                         }
                       }}
                       className={cn(
-                        "block px-4 py-3 rounded-lg font-medium transition-all duration-300 border-l-2",
+                        "block px-4 py-3 rounded-lg font-medium transition-all duration-300 border-l-2 text-base",
                         activeSection === item.section
                           ? "text-primary bg-primary/10 border-primary"
                           : "text-gray-300 border-transparent hover:text-white hover:bg-white/5"
@@ -308,13 +305,14 @@ const Navbar = () => {
                   <a 
                     href="mailto:hola@somos.com" 
                     className="text-primary hover:underline text-sm"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    hola@somos.com
+                    somos.env@gmail.com
                   </a>
                 </motion.div>
               </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
