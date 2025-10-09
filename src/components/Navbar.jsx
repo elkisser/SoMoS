@@ -104,6 +104,15 @@ const Navbar = () => {
               className="flex items-center gap-3 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={(e) => {
+                // Si ya estamos en la home, evitar recargar y hacer scroll suave
+                if (typeof window !== 'undefined' && (window.location.pathname === '/' || window.location.pathname === '')) {
+                  e.preventDefault();
+                  const el = document.getElementById('inicio');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  setActiveSection('inicio');
+                }
+              }}
             >
               <div className="relative w-12 h-12 flex items-center justify-center">
                 <img src="/logo_render.png" alt="Logo SoMoS" className="w-8 h-8 rounded-lg z-10" />
@@ -134,9 +143,19 @@ const Navbar = () => {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => {
+                    // Si es ancla, hacemos scroll suave
                     if (item.href.startsWith('#')) {
                       e.preventDefault();
                       handleNavClick(item.href, item.section);
+                      return;
+                    }
+
+                    // Si es '/', y ya estamos en la home, prevenir reload y scrollear al inicio
+                    if (item.href === '/' && (typeof window !== 'undefined') && (window.location.pathname === '/' || window.location.pathname === '')) {
+                      e.preventDefault();
+                      const el = document.getElementById('inicio');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      setActiveSection('inicio');
                     }
                   }}
                   className={cn(
@@ -204,9 +223,11 @@ const Navbar = () => {
             className="fixed inset-0 z-40 lg:hidden pt-20"
           >
             {/* Backdrop */}
-            <div 
+            <button
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              aria-label="Cerrar menú"
               onClick={() => setMobileMenuOpen(false)}
+              onKeyDown={(e) => { if (e.key === 'Escape') setMobileMenuOpen(false); }}
             />
             
             {/* Menu Content */}
