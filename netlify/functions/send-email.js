@@ -4,26 +4,37 @@ const path = require('path');
 
 // Configuración del transporter de email usando DSN
 const createTransporter = () => {
-  // Usar MAILER_DSN si está disponible, sino usar configuración SMTP tradicional
+  // Usar MAILER_DSN si está disponible
   if (process.env.MAILER_DSN) {
-    return nodemailer.createTransporter(process.env.MAILER_DSN);
-  }
-  
-  // Fallback a configuración SMTP tradicional
-  return nodemailer.createTransporter({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: process.env.SMTP_PORT || 587,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
+    // nodemailer acepta DSN como string
+    try {
+      return nodemailer.createTransport(process.env.MAILER_DSN);
+    } catch (err) {
+      console.warn('MAILER_DSN inválido, intentando fallback SMTP:', err.message);
     }
-  });
+  }
+
+  // Fallback a configuración SMTP tradicional (si están presentes)
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587,
+      secure: process.env.SMTP_SECURE === 'true' || false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+  }
+
+  // Si no hay configuración, lanzar error para que caller lo capture
+  throw new Error('No MAILER_DSN ni credenciales SMTP configuradas (SMTP_USER/SMTP_PASS).');
 };
 
 // Función para leer y procesar plantillas HTML
 const getEmailTemplate = (templateName, data) => {
-  const templatePath = path.join(__dirname, '../../src/templates', `${templateName}.html`);
+  // Usar process.cwd() para asegurarnos de construir rutas relativas al repo raíz
+  const templatePath = path.join(process.cwd(), 'src', 'templates', `${templateName}.html`);
   let template = fs.readFileSync(templatePath, 'utf8');
   
   // Reemplazar variables en la plantilla
@@ -109,7 +120,7 @@ exports.handler = async (event, context) => {
     }
 
     // Crear transporter
-    const transporter = createTransporter();
+  const transporter = createTransporter();
 
     // Preparar datos del cliente
     const clientData = {

@@ -12,7 +12,7 @@ const Services = () => {
       icon: Globe,
       title: 'Desarrollo Web',
       description: 'Sitios web modernos y responsivos con las últimas tecnologías.',
-      features: ['PHP/Symfony', 'React/Next.js', 'Astro', 'Tailwind CSS', 'TypeScript', 'HTML5', 'CSS3', 'JavaScript', 'MySQL', 'MongoDB', 'Git', 'GitHub']
+      features: ['PHP/Symfony', 'React/Next.js', 'Astro', 'Tailwind CSS', 'TypeScript', 'HTML5', 'CSS3', 'JavaScript', 'MySQL', 'APIs REST']
     },
     {
       icon: Smartphone,
