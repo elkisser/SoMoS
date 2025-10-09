@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Globe, Smartphone, ShoppingCart, BarChart3, Rocket, Shield } from 'lucide-react';
+import { Globe, Smartphone, Rocket } from 'lucide-react';
 
 const Services = () => {
   const ref = useRef(null);
@@ -12,25 +12,13 @@ const Services = () => {
       icon: Globe,
       title: 'Desarrollo Web',
       description: 'Sitios web modernos y responsivos con las últimas tecnologías.',
-      features: ['React/Next.js', 'Astro', 'Tailwind CSS', 'TypeScript']
+      features: ['PHP/Symfony', 'React/Next.js', 'Astro', 'Tailwind CSS', 'TypeScript', 'HTML5', 'CSS3', 'JavaScript', 'MySQL', 'MongoDB', 'Git', 'GitHub']
     },
     {
       icon: Smartphone,
       title: 'Apps Móviles',
       description: 'Aplicaciones nativas e híbridas para iOS y Android.',
-      features: ['React Native', 'Flutter', 'UI/UX Design', 'App Store Deployment']
-    },
-    {
-      icon: ShoppingCart,
-      title: 'E-commerce',
-      description: 'Tiendas online escalables con pasarelas de pago integradas.',
-      features: ['Shopify', 'WooCommerce', 'Payment Gateways', 'Inventory Management']
-    },
-    {
-      icon: BarChart3,
-      title: 'Marketing Digital',
-      description: 'Estrategias digitales para aumentar tu presencia online.',
-      features: ['SEO', 'Social Media', 'Google Ads', 'Analytics']
+      features: ['React Native', 'Flutter', 'UI/UX Design']
     },
     {
       icon: Rocket,
@@ -38,12 +26,6 @@ const Services = () => {
       description: 'Desarrollo de identidad visual y estrategia de marca.',
       features: ['Logo Design', 'Brand Guidelines', 'Visual Identity', 'Content Strategy']
     },
-    {
-      icon: Shield,
-      title: 'Consultoría Tech',
-      description: 'Asesoramiento especializado en transformación digital.',
-      features: ['Tech Audit', 'Digital Strategy', 'Process Optimization', 'Team Training']
-    }
   ];
 
   return (

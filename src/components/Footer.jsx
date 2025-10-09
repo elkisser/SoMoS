@@ -43,10 +43,7 @@ const Footer = () => {
   const services = [
     'Desarrollo Web',
     'Apps Móviles',
-    'E-commerce',
-    'Marketing Digital',
-    'Branding',
-    'Consultoría Tech'
+    'Branding'
   ];
 
   return (
