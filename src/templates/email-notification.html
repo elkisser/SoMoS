@@ -102,10 +102,17 @@
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            border: 4px;
-            border-color: #222222;
+            border: 4px solid #222222; 
             border-radius: 50%;
             box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            overflow: hidden; /* esto recorta la imagen al borde circular */
+            position: relative; /* por si querés posicionar cosas adentro */
+        }
+
+        .icon-circle-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* hace que la imagen se adapte bien */
         }
         
         .icon-circle {
@@ -115,10 +122,17 @@
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            border: 4px;
-            border-color: #00ff88;
+            border: 4px solid #00ff88; /* corregido */
             border-radius: 50%;
             box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            overflow: hidden; /* esto recorta la imagen al borde circular */
+            position: relative; /* por si querés posicionar cosas adentro */
+        }
+
+        .icon-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* hace que la imagen se adapte bien */
         }
         
         .email-title {
@@ -354,7 +368,7 @@
             <div class="header-pattern"></div>
             <div class="logo-section">
                 <div class="icon-circle">
-                    <img src="https://somos-env.netlify.app/logo.png" alt="SoMoS" class="logo-img" width="60" height="60">
+                    <img src="https://somos-env.netlify.app/logo.png" alt="SoMoS" width="90" height="90">
                 </div>
                 <div class="brand-name">SoMoS</div>
                 <div class="brand-tagline">Soluciones Modernas y Software</div>
@@ -364,7 +378,7 @@
         <div class="email-content">
             <div class="notification-icon">
                 <div class="icon-circle-header">
-                    <img src="https://somos-env.netlify.app/logo.png" alt="SoMoS" class="logo-img" width="60" height="60">
+                    <img src="https://somos-env.netlify.app/logo.png" alt="SoMoS" width="90" height="90">
                 </div>
             </div>
             
