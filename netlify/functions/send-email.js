@@ -103,10 +103,18 @@ const sendConfirmationEmail = async (transporter, clientData) => {
   });
   
   const mailOptions = {
-    from: `"SoMoS" <${process.env.SMTP_USER}>`,
+    from: process.env.SMTP_USER, // Email simple sin alias
+    replyTo: process.env.SMTP_USER,
     to: clientData.email,
-    subject: '¡Gracias por contactarnos! - SoMoS',
-    html: htmlContent
+    subject: 'Gracias por contactarnos - SoMoS',
+    html: htmlContent,
+    text: `Hola ${clientData.name},\n\nGracias por contactarnos. Hemos recibido tu mensaje y te responderemos dentro de las próximas 24 horas.\n\nSaludos,\nEquipo SoMoS`,
+    headers: {
+      'X-Mailer': 'SoMoS Contact System',
+      'X-Priority': '3',
+      'X-MSMail-Priority': 'Normal',
+      'Importance': 'Normal'
+    }
   };
   
   return await transporter.sendMail(mailOptions);
@@ -128,11 +136,34 @@ const sendNotificationEmail = async (transporter, clientData) => {
     })
   });
   
+  const textContent = `Nueva consulta recibida:
+
+Nombre: ${clientData.name}
+Email: ${clientData.email}
+Mensaje: ${clientData.message}
+
+Fecha: ${new Date().toLocaleString('es-ES', {
+    timeZone: 'America/Argentina/Buenos_Aires',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })}`;
+  
   const mailOptions = {
-    from: `"SoMoS Contact Form" <${process.env.SMTP_USER}>`,
+    from: process.env.SMTP_USER,
+    replyTo: clientData.email, // Importante: permite responder directamente al cliente
     to: process.env.TEAM_EMAIL || 'somos.env@gmail.com',
-    subject: `Nueva consulta de ${clientData.name} - SoMoS`,
-    html: htmlContent
+    subject: `Nueva consulta de ${clientData.name}`,
+    html: htmlContent,
+    text: textContent,
+    headers: {
+      'X-Mailer': 'SoMoS Contact System',
+      'X-Priority': '3',
+      'X-MSMail-Priority': 'Normal',
+      'Importance': 'Normal'
+    }
   };
   
   return await transporter.sendMail(mailOptions);

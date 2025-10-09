@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gracias por contactarnos - SoMoS</title>
+    <title>Confirmación de Contacto - SoMoS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Reset y estilos base */
         * {
             margin: 0;
             padding: 0;
@@ -13,234 +17,326 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
             line-height: 1.6;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            margin: 0;
             padding: 20px;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%;
         }
         
-        .container {
+        .email-wrapper {
             max-width: 600px;
             margin: 0 auto;
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: #222222;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333333;
         }
         
-        .header {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        /* Header con gradiente premium */
+        .email-header {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
             padding: 40px 30px;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
         
-        .header::before {
-            content: '';
+        .header-pattern {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
+            opacity: 0.1;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
         }
         
-        .logo {
+        .logo-section {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-img {
+            height: 60px;
+            width: auto;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .brand-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .brand-tagline {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            opacity: 0.9;
+        }
+        
+        /* Contenido principal */
+        .email-content {
+            padding: 40px 30px;
+            background: #222222;
+        }
+        
+        .delivery-icon {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 80px;
             height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: bold;
-            position: relative;
-            z-index: 1;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
         }
         
-        .header h1 {
+        .icon-circle svg {
+            width: 35px;
+            height: 35px;
+            color: #1a1a1a;
+        }
+        
+        .email-title {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .content {
-            padding: 40px 30px;
-        }
-        
-        .greeting {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #6366f1;
-            font-weight: 600;
-        }
-        
-        .message {
-            font-size: 16px;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-        
-        .highlight-box {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 30px 0;
-        }
-        
-        .highlight-box h3 {
-            color: #6366f1;
-            font-size: 18px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .contact-info {
-            background: rgba(26, 26, 46, 0.5);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 30px 0;
-        }
-        
-        .contact-info h3 {
-            color: #6366f1;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        
-        .contact-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .footer {
-            background: rgba(15, 15, 35, 0.8);
-            padding: 30px;
+            color: #ffffff;
             text-align: center;
-            border-top: 1px solid rgba(99, 102, 241, 0.1);
+            margin-bottom: 20px;
+            line-height: 1.3;
         }
         
-        .footer p {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-bottom: 10px;
+        .client-name {
+            color: #00ff88;
         }
         
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        .email-message {
+            color: #d1d5db;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* Caja de destacado */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .highlight-text {
+            color: #00ff88;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        
+        /* Información de contacto */
+        .contact-info {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #333333;
+        }
+        
+        .info-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .whatsapp-section {
+            text-align: center;
             margin-top: 20px;
         }
         
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 10px;
-            display: flex;
+        .btn {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #1a1a1a;
             text-decoration: none;
-            color: #6366f1;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            min-width: 180px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
         }
         
-        .social-link:hover {
-            background: rgba(99, 102, 241, 0.2);
+        .btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
         }
         
+        .btn i, .btn svg {
+            margin-right: 8px;
+        }
+        
+        /* Footer */
+        .email-footer {
+            background: #1a1a1a;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #333333;
+        }
+        
+        .signature {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .footer-contact {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-contact a {
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        .auto-message {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #333333;
+        }
+        
+        /* Responsive */
         @media (max-width: 600px) {
-            .container {
-                margin: 10px;
-                border-radius: 15px;
+            body {
+                padding: 10px;
             }
             
-            .header, .content, .footer {
-                padding: 25px 20px;
+            .email-wrapper {
+                border-radius: 12px;
             }
             
-            .header h1 {
+            .email-header {
+                padding: 30px 20px;
+            }
+            
+            .email-content {
+                padding: 30px 20px;
+            }
+            
+            .email-title {
                 font-size: 24px;
             }
+            
+            .brand-name {
+                font-size: 24px;
+            }
+            
+            .logo-img {
+                height: 50px;
+            }
+        }
+        
+        /* Optimizaciones anti-spam */
+        .spam-prevention {
+            display: none;
+        }
+        
+        /* Mejora de deliverability */
+        .text-content {
+            color: #333333;
+            /* Color oscuro para mejor legibilidad en clientes de email */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">SoMoS</div>
-            <h1>¡Gracias por contactarnos!</h1>
-            <p>Hemos recibido tu mensaje correctamente</p>
+    <div class="email-wrapper">
+        <div class="email-header">
+            <div class="header-pattern"></div>
+            <div class="logo-section">
+                <img src="https://somos-env.netlify.app/logo_render.png" alt="SoMoS" class="logo-img" width="60" height="60">
+                <div class="brand-name">SoMoS</div>
+                <div class="brand-tagline">Soluciones Modernas y Software</div>
+            </div>
         </div>
         
-        <div class="content">
-            <div class="greeting">Hola {{name}},</div>
-            
-            <div class="message">
-                Muchas gracias por ponerte en contacto con nosotros. Hemos recibido tu mensaje y estamos emocionados de conocer más sobre tu proyecto.
+        <div class="email-content">
+            <div class="delivery-icon">
+                <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </div>
             </div>
+            
+            <h1 class="email-title">¡Hola <span class="client-name">{{name}}</span>!</h1>
+            
+            <p class="email-message">Gracias por contactarnos a través de nuestro sitio web. Hemos recibido tu mensaje correctamente.</p>
             
             <div class="highlight-box">
-                <h3>🎯 ¿Qué sigue ahora?</h3>
-                <p>Nuestro equipo revisará tu consulta y se pondrá en contacto contigo dentro de las próximas <strong>24 horas</strong> para discutir los detalles de tu proyecto y cómo podemos ayudarte a hacerlo realidad.</p>
+                <div class="highlight-text">
+                    Tu mensaje ha sido recibido correctamente y nuestro equipo lo revisará dentro de las próximas 24 horas.
+                </div>
             </div>
             
-            <div class="message">
-                Mientras tanto, te invitamos a explorar nuestros trabajos anteriores y conocer más sobre nuestros servicios. Estamos aquí para convertir tus ideas en experiencias digitales extraordinarias.
-            </div>
+            <p class="email-message">Nos pondremos en contacto contigo lo antes posible para responder a tu consulta.</p>
             
             <div class="contact-info">
-                <h3>📞 ¿Necesitas contactarnos urgentemente?</h3>
-                <div class="contact-item">
-                    <span>📧</span>
-                    <span>somos.env@gmail.com</span>
-                </div>
-                <div class="contact-item">
-                    <span>📱</span>
-                    <span>+54 343 508-6453 (WhatsApp)</span>
-                </div>
-                <div class="contact-item">
-                    <span>🕒</span>
-                    <span>Lun - Vie: 8:00 - 18:00</span>
+                <div class="info-title">¿Necesitas una respuesta más rápida?</div>
+                <p style="color: #d1d5db; text-align: center; margin-bottom: 20px;">También puedes contactarnos directamente por WhatsApp:</p>
+                <div class="whatsapp-section">
+                    <a href="https://wa.me/3435086453" class="btn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893-.001-3.189-1.248-6.189-3.515-8.452"/>
+                        </svg>
+                        Contactar por WhatsApp
+                    </a>
                 </div>
             </div>
         </div>
         
-        <div class="footer">
-            <p>© 2025 SoMoS - Soluciones Modernas y Software</p>
-            <p>Creando experiencias digitales únicas</p>
-            
-            <div class="social-links">
-                <a href="https://wa.me/3435086453" class="social-link">📱</a>
-                <a href="mailto:somos.env@gmail.com" class="social-link">📧</a>
+        <div class="email-footer">
+            <div class="signature">Saludos cordiales,<br>Equipo SoMoS</div>
+            <div class="footer-contact">
+                Email: <a href="mailto:somos.env@gmail.com">somos.env@gmail.com</a> | 
+                Tel: <a href="tel:+543435086453">+54 343 508-6453</a>
+            </div>
+            <div class="auto-message">
+                Este es un mensaje automático. Por favor, no respondas a este email.
             </div>
         </div>
+    </div>
+
+    <!-- Texto oculto para mejorar deliverability -->
+    <div class="spam-prevention">
+        SoMoS contacto confirmación mensaje recibido respuesta consulta proyecto desarrollo web software aplicación móvil diseño digital innovación tecnología solución moderna
     </div>
 </body>
 </html>
