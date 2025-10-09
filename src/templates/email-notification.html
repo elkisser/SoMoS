@@ -94,6 +94,19 @@
             text-align: center;
             margin-bottom: 30px;
         }
+
+        .icon-circle-header {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            border: 4px;
+            border-color: #222222;
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
         
         .icon-circle {
             display: inline-flex;
@@ -102,14 +115,10 @@
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            border: 4px;
+            border-color: #00ff88;
             border-radius: 50%;
             box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
-        }
-        
-        .icon-circle svg {
-            width: 35px;
-            height: 35px;
-            color: #1a1a1a;
         }
         
         .email-title {
@@ -344,7 +353,9 @@
         <div class="email-header">
             <div class="header-pattern"></div>
             <div class="logo-section">
-                <img src="https://somos-env.netlify.app/logo_render.png" alt="SoMoS" class="logo-img" width="60" height="60">
+                <div class="icon-circle">
+                    <img src="https://somos-env.netlify.app/logo.png" alt="SoMoS" class="logo-img" width="60" height="60">
+                </div>
                 <div class="brand-name">SoMoS</div>
                 <div class="brand-tagline">Soluciones Modernas y Software</div>
             </div>
@@ -352,10 +363,8 @@
         
         <div class="email-content">
             <div class="notification-icon">
-                <div class="icon-circle">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
-                    </svg>
+                <div class="icon-circle-header">
+                    <img src="https://somos-env.netlify.app/logo.png" alt="SoMoS" class="logo-img" width="60" height="60">
                 </div>
             </div>
             
