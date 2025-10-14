@@ -11,14 +11,34 @@ const Navbar = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // Detectar la página actual basada en la ruta
+    const detectCurrentPage = () => {
+      const pathname = window.location.pathname;
+      
+      // Establecer sección activa según la página actual
+      if (pathname.includes('/trabajos')) {
+        setActiveSection('trabajos');
+        return true;
+      } else if (pathname.includes('/contacto')) {
+        setActiveSection('contacto');
+        return true;
+      } else if (pathname === '/' || pathname === '') {
+        // En la página principal, la sección se determinará por scroll
+        return false;
+      }
+      return false;
+    };
+
+    // Si estamos en una página específica, no necesitamos detectar secciones por scroll
+    const isSpecificPage = detectCurrentPage();
+
     const handleScroll = () => {
       // Detectar scroll para efecto visual
       setScrolled(window.scrollY > 60);
       
       // Solo detectar secciones si estamos en la página principal
-      const pathname = window.location.pathname;
-      if (pathname === '/' || pathname === '') {
-        const sections = ['inicio', 'about', 'services', 'trabajos', 'contacto'];
+      if (!isSpecificPage) {
+        const sections = ['inicio', 'about', 'services'];
         let currentActive = 'inicio';
         
         sections.forEach(section => {
@@ -54,18 +74,20 @@ const Navbar = () => {
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && (window.location.pathname === '/' || window.location.pathname === '')) {
+        if (entry.isIntersecting && !isSpecificPage) {
           setActiveSection(entry.target.id);
         }
       });
     }, observerOptions);
 
-    // Observar las secciones
-    const sectionsToObserve = ['inicio', 'about', 'services'];
-    sectionsToObserve.forEach(section => {
-      const element = document.getElementById(section);
-      if (element) observer.observe(element);
-    });
+    // Observar las secciones solo si estamos en la página principal
+    if (!isSpecificPage) {
+      const sectionsToObserve = ['inicio', 'about', 'services'];
+      sectionsToObserve.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) observer.observe(element);
+      });
+    }
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
@@ -80,26 +102,33 @@ const Navbar = () => {
     { name: 'Inicio', href: '#inicio', section: 'inicio' },
     { name: 'Nosotros', href: '#about', section: 'about' },
     { name: 'Servicios', href: '#services', section: 'services' },
-    { name: 'Trabajos', href: '/trabajos' },
-    { name: 'Contacto', href: '/contacto' }
+    { name: 'Trabajos', href: '/trabajos', section: 'trabajos' },
+    { name: 'Contacto', href: '/contacto', section: 'contacto' }
   ];
 
-  const handleNavClick = (href, section) => {
-    if (href.startsWith('#')) {
-      const element = document.getElementById(href.substring(1));
-      if (element) {
-        const offset = 80; // Compensar altura de navbar
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - offset;
+  // Función para manejar la navegación entre páginas
+  const handleNavigation = (href, section) => {
+    if (typeof window !== 'undefined') {
+      if (href.startsWith('#')) {
+        // Navegación dentro de la página principal
+        const element = document.getElementById(href.substring(1));
+        if (element) {
+          const offset = 80; // Compensar altura de navbar
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+        setActiveSection(section);
+      } else {
+        // Para navegación entre páginas, dejamos que ocurra normalmente
+        // La sección activa se actualizará en el useEffect cuando la página cargue
+        setMobileMenuOpen(false);
       }
     }
-    setActiveSection(section);
-    setMobileMenuOpen(false);
   };
 
   const handleLogoClick = (e) => {
@@ -172,7 +201,7 @@ const Navbar = () => {
                   onClick={(e) => {
                     if (item.href.startsWith('#')) {
                       e.preventDefault();
-                      handleNavClick(item.href, item.section);
+                      handleNavigation(item.href, item.section);
                     } else if (item.href === '/') {
                       e.preventDefault();
                       handleLogoClick(e);
@@ -181,7 +210,7 @@ const Navbar = () => {
                   className={cn(
                     "relative px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm",
                     activeSection === item.section
-                      ? "text-primary"
+                      ? "text-primary font-semibold"
                       : "text-gray-300 hover:text-white hover:bg-white/5"
                   )}
                   whileHover={{ y: -2 }}
@@ -193,10 +222,16 @@ const Navbar = () => {
                   {item.name}
                   {activeSection === item.section && (
                     <motion.div
-                      className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
+                      className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-primary rounded-full"
                       layoutId="activeIndicator"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-primary/30 rounded-full"
+                        animate={{ scale: [1, 1.8, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    </motion.div>
                   )}
                 </motion.a>
               ))}
