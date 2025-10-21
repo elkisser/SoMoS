@@ -43,13 +43,13 @@ const Hero = () => {
       {/* Grid Pattern Sutil */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,136,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,136,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
       
-      <div className="container mx-auto px-4 text-center relative z-10">
+      <div className="container mx-auto px-4 mb-16 text-center relative z-10">
         {/* Badge Premium */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-8"
+          className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full mt-8 px-4 py-2 mb-8"
         >
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-primary text-sm font-medium">Innovación Digital</span>
@@ -118,7 +118,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-gray-700 max-w-2xl mx-auto"
+          className="grid grid-cols-3 gap-8 mt-16 mb-16 pt-8 border-t border-gray-700 max-w-2xl mx-auto"
         >
           {[
             { number: '10+', label: 'Proyectos' },
@@ -139,7 +139,7 @@ const Hero = () => {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 transform -translate-x-1/2 hidden md:block"
+        className="absolute bottom-8 transform -translate-x-1/2 hidden sm:block mt-16" 
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-gray-400 text-sm">Descubre más</span>
