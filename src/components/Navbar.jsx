@@ -110,19 +110,25 @@ const Navbar = () => {
   const handleNavigation = (href, section) => {
     if (typeof window !== 'undefined') {
       if (href.startsWith('#')) {
-        // Navegación dentro de la página principal
-        const element = document.getElementById(href.substring(1));
-        if (element) {
-          const offset = 80; // Compensar altura de navbar
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - offset;
+        // Si estamos en la página principal, navegar a la sección
+        if (window.location.pathname === '/' || window.location.pathname === '') {
+          const element = document.getElementById(href.substring(1));
+          if (element) {
+            const offset = 80; // Compensar altura de navbar
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+          setActiveSection(section);
+        } else {
+          // Si estamos en otra página, redirigir a la home con la sección
+          window.location.href = `/${href}`;
         }
-        setActiveSection(section);
+        setMobileMenuOpen(false);
       } else {
         // Para navegación entre páginas, dejamos que ocurra normalmente
         // La sección activa se actualizará en el useEffect cuando la página cargue
@@ -299,7 +305,7 @@ const Navbar = () => {
                       onClick={(e) => {
                         if (item.href.startsWith('#')) {
                           e.preventDefault();
-                          handleNavClick(item.href, item.section);
+                          handleNavigation(item.href, item.section);
                         }
                       }}
                       className={cn(
