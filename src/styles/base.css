@@ -8,10 +8,14 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
     scroll-behavior: smooth;
+    /* Evitar desbordes horizontales que provocan scroll extra */
+    overflow-x: hidden;
+    height: 100%;
   }
   
   body {
     @apply bg-background text-text;
+    height: 100%;
   }
 }
 
