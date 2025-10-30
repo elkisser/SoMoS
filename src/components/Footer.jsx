@@ -47,7 +47,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-nav border-t border-gray-700/50 relative overflow-hidden">
+    <footer className="bg-nav border-t border-gray-700/50 relative overflow-hidden top-24">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/20"></div>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
