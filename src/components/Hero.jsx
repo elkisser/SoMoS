@@ -6,6 +6,7 @@ import { getFeaturedProjects, getProjectsStats } from '../utils/projects-data';
 const Hero = () => {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [hoveredProject, setHoveredProject] = useState(null);
+  const [featuredProjects] = useState(() => getFeaturedProjects());
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -16,7 +17,6 @@ const Hero = () => {
     }
   }, []);
 
-  const featuredProjects = getFeaturedProjects();
   const stats = getProjectsStats();
 
   // Lógica SIMPLE y DIRECTA para destacar The Cookie Box
@@ -87,7 +87,7 @@ const Hero = () => {
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,136,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,136,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
 
-      <div className="container mx-auto px-4 py-6 relative z-10">
+      <div className="container mx-auto px-4 pt-0 pb-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
           
           {/* Columna Izquierda - Contenido Principal */}
@@ -144,7 +144,7 @@ const Hero = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Ver casos de éxito
+                Ver Proyectos
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </motion.a>
               
