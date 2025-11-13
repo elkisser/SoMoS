@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import WorkCard from './WorkCard.jsx';
 import ProjectFilters from './ProjectFilters.jsx';
+import { projects } from '../utils/projects-data.js';
 
 const ProjectsGrid = ({ projects }) => {
   const [activeFilters, setActiveFilters] = useState([]);
@@ -158,6 +160,20 @@ const ProjectsGrid = ({ projects }) => {
       </motion.div>
     </>
   );
+};
+
+ProjectsGrid.propTypes = {
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+      video: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      featured: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
 };
 
 export default ProjectsGrid;
