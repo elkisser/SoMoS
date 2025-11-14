@@ -1,8 +1,9 @@
 ---
 import Navbar from "../components/Navbar.jsx";
 import ProjectsGrid from "../components/ProjectsGrid.jsx";
+import WorksHero from "../components/WorksHero.jsx";
 import Footer from "../components/Footer.jsx";
-import { projects } from "../utils/projects-data.js"; // ← Importamos desde el archivo central
+import { projects } from "../utils/projects-data.js";
 import "../styles/base.css";
 import "../styles/animations.css";
 ---
@@ -11,28 +12,21 @@ import "../styles/animations.css";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trabajos - SoMoS</title>
+    <title>Trabajos Realizados - SoMoS</title>
     <meta
       name="description"
-      content="Portfolio de trabajos realizados por SoMoS. Descubre nuestros proyectos más recientes en desarrollo web y diseño."
+      content="Descubre los trabajos realizados por SoMoS. Proyectos de desarrollo web, apps móviles y branding que han impulsado el crecimiento de nuestros clientes."
     />
     <link rel="icon" type="image/png" href="/logo_render.png" />
   </head>
   <body class="bg-background text-text flex flex-col min-h-screen">
     <Navbar client:load />
 
-    <main class="pt-24 pb-16 flex-grow">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h1 class="text-5xl md:text-6xl font-bold mb-6">
-            Nuestros <span class="text-primary">Trabajos</span>
-          </h1>
-          <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-            Descubre algunos de nuestros proyectos más recientes donde
-            combinamos diseño innovador con tecnología de vanguardia.
-          </p>
-        </div>
+    <main class="pt-28 pb-20 flex-grow">
+      <div class="container mx-auto px-6">
+        <WorksHero projectsCount={projects.length} client:load />
 
+        {/* Projects Grid */}
         <ProjectsGrid projects={projects} client:load />
       </div>
     </main>

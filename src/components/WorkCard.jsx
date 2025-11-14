@@ -13,7 +13,10 @@ const WorkCard = ({ project, index }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -10 }}
+      whileHover={{ 
+        y: -10,
+        transition: { duration: 0.15, ease: "easeOut" }
+      }}
       className="group bg-nav rounded-xl overflow-hidden card-hover cursor-pointer relative"
       onClick={handleClick}
     >
@@ -27,7 +30,7 @@ const WorkCard = ({ project, index }) => {
         <div className="w-full h-48 relative">
           {project.video ? (
             <video
-              className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-100 opacity-30 relative z-10"
+              className="w-full h-full object-cover transition-opacity duration-150 ease-out group-hover:opacity-100 opacity-30 relative z-10"
               autoPlay
               muted
               loop
@@ -42,14 +45,14 @@ const WorkCard = ({ project, index }) => {
           )}
 
           {/* Overlay con efecto hover */}
-          <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+          <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out z-20">
             <ExternalLink className="w-8 h-8 text-white drop-shadow-lg" />
           </div>
         </div>
       </div>
 
       <div className="p-6 relative z-30">
-        <h3 className="text-xl font-semibold text-text mb-2 group-hover:text-primary transition-colors duration-300">
+        <h3 className="text-xl font-semibold text-text mb-2 group-hover:text-primary transition-colors duration-150 ease-out">
           {project.name}
         </h3>
         <p className="text-gray-400 mb-4">
