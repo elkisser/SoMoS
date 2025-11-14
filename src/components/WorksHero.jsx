@@ -66,16 +66,8 @@ const WorksHero = ({ projectsCount }) => {
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
         >
           <span className="block mb-2">Nuestros</span>
-          <span className="relative inline-block">
-            <span className="bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
-              Trabajos
-            </span>
-            <motion.div
-              className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-            />
+          <span className="bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
+            Trabajos
           </span>
         </motion.h1>
         
