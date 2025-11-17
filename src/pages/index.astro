@@ -17,23 +17,11 @@ import '../styles/animations.css';
     <title>SoMoS - Innovación y Diseño Digital</title>
     <meta name="description" content="SoMoS crea experiencias digitales únicas. Desarrollo web, apps móviles, e-commerce y marketing digital. Transformamos ideas en realidades digitales." />
     <link rel="icon" type="image/png" href="/logo_render.png" />
-    <style>
-      /* Estilos críticos para la navbar */
-      body {
-        padding-top: 80px; /* Espacio para navbar fija */
-      }
-      
-      @media (max-width: 768px) {
-        body {
-          padding-top: 70px; /* Menos espacio en mobile */
-        }
-      }
-    </style>
   </head>
   <body class="bg-background text-text flex flex-col min-h-screen">
     <Navbar client:load />
     
-    <main class="flex-grow">
+    <main class="pt-28 pb-20 flex-grow overflow-x-hidden">
       <Hero client:load />
       <About client:load />
       <Services client:load />
@@ -41,6 +29,6 @@ import '../styles/animations.css';
     </main>
     
     <FloatingWhatsApp client:load />
-     <Footer client:load />
+    <Footer client:load />
   </body>
 </html>

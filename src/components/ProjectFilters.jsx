@@ -1,13 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 
-const ProjectFilters = ({ onFilterChange, activeFilters }) => {
-  const categories = [
-    { id: 'desarrollo-web', name: 'Web', icon: '🌐' },
-    { id: 'apps-moviles', name: 'Móvil', icon: '📱' },
-    { id: 'branding', name: 'Branding', icon: '🎨' }
-  ];
-
+const ProjectFilters = ({ onFilterChange, activeFilters, categories }) => {
   const handleToggle = (categoryId) => {
     const newFilters = activeFilters.includes(categoryId)
       ? activeFilters.filter(filter => filter !== categoryId)
@@ -20,22 +15,47 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
     onFilterChange([]);
   };
 
+  const categoryList = [
+    { id: 'desarrollo-web', name: 'Web', icon: '🌐', ...categories['desarrollo-web'] },
+    { id: 'apps-moviles', name: 'Móvil', icon: '📱', ...categories['apps-moviles'] },
+    { id: 'branding', name: 'Branding', icon: '🎨', ...categories['branding'] }
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="mb-12"
+      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+      className="mb-12 md:mb-16 relative overflow-hidden"
     >
-      {/* Filtros ultra compactos y premium con colores de tu marca */}
-      <div className="flex flex-col items-center gap-4">
-        {/* Contenedor principal de filtros */}
+      {/* Efectos de fondo premium - contenido dentro del contenedor */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-64 md:h-64 bg-primary/5 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Filtros premium con glassmorphism */}
+      <div className="flex flex-col items-center gap-4 relative z-10">
+        {/* Contenedor principal de filtros premium */}
         <motion.div
-          className="relative inline-flex bg-nav/80 backdrop-blur-xl border border-gray-600/40 rounded-2xl p-1.5 gap-1 shadow-2xl shadow-black/30"
+          className="relative inline-flex bg-gradient-to-br from-gray-800/60 via-gray-800/40 to-gray-900/60 backdrop-blur-xl border border-primary/20 rounded-2xl p-1.5 gap-1.5 shadow-2xl shadow-black/30 overflow-hidden"
           whileHover={{ scale: 1.01 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
         >
-          {categories.map((category, index) => {
+          {/* Efecto de brillo animado */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-2xl"
+            animate={{
+              x: ['-100%', '200%'],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: "linear"
+            }}
+          />
+
+          {categoryList.map((category, index) => {
             const isActive = activeFilters.includes(category.id);
             return (
               <motion.button
@@ -46,45 +66,60 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
                 transition={{ 
                   type: "spring", 
                   stiffness: 500, 
-                  damping: 30, 
-                  delay: index * 0.1 
+                  damping: 30
                 }}
                 className={`
-                  relative px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 
-                  focus:outline-none focus:ring-2 focus:ring-primary/40 group min-w-[90px]
+                  relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 
+                  focus:outline-none focus:ring-2 focus:ring-primary/40 group min-w-[100px] overflow-hidden
                   ${isActive 
                     ? 'text-white shadow-lg shadow-primary/20'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-700/30'
+                    : 'text-gray-400 hover:text-white'
                   }
                 `}
                 whileHover={{ 
-                  scale: 1.08,
+                  scale: 1.05,
+                  y: -2,
                   transition: { type: "spring", stiffness: 500 }
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {/* Fondo verde premium para estado activo - RESPETANDO TUS COLORES */}
+                {/* Fondo premium para estado activo */}
                 {isActive && (
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-primary to-emerald-600 rounded-xl shadow-inner"
+                    className="absolute inset-0 bg-gradient-to-r from-primary via-emerald-500 to-primary rounded-xl shadow-inner"
                     layoutId="activeFilter"
                     transition={{ type: "spring", stiffness: 400, damping: 35 }}
-                  />
+                  >
+                    {/* Efecto de brillo en activo */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                      animate={{
+                        x: ['-100%', '200%'],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatDelay: 1,
+                        ease: "linear"
+                      }}
+                    />
+                  </motion.div>
                 )}
                 
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <motion.span
                     animate={{ 
                       scale: isActive ? [1, 1.4, 1.1] : 1,
+                      rotate: isActive ? [0, 10, -10, 0] : 0
                     }}
                     transition={{ duration: 0.3 }}
-                    className="text-sm"
+                    className="text-base"
                   >
                     {category.icon}
                   </motion.span>
                   <span className="tracking-tight">{category.name}</span>
                   
-                  {/* Indicador sutil de selección múltiple */}
+                  {/* Indicador de selección */}
                   {isActive && (
                     <motion.div
                       initial={{ scale: 0 }}
@@ -94,19 +129,11 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
                   )}
                 </span>
 
-                {/* Efecto de borde sutil en hover */}
-                <motion.div
-                  className="absolute inset-0 border-2 border-transparent rounded-xl group-hover:border-white/5"
-                  transition={{ duration: 0.2 }}
-                />
-
-                {/* Efecto de brillo sutil en activo */}
-                {isActive && (
+                {/* Efecto de borde en hover */}
+                {!isActive && (
                   <motion.div
-                    className="absolute inset-0 bg-white/10 rounded-xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 border-2 border-transparent rounded-xl group-hover:border-primary/20"
+                    transition={{ duration: 0.2 }}
                   />
                 )}
               </motion.button>
@@ -114,7 +141,7 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
           })}
         </motion.div>
 
-        {/* Indicador de filtros activos - Ultra minimalista y premium */}
+        {/* Indicador de filtros activos premium */}
         <AnimatePresence>
           {activeFilters.length > 0 && (
             <motion.div
@@ -123,9 +150,9 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
               exit={{ opacity: 0, y: -10, scale: 0.9 }}
               className="flex items-center gap-3"
             >
-              {/* Badge premium verde - RESPETANDO TUS COLORES */}
+              {/* Badge premium */}
               <motion.div
-                className="flex items-center gap-2 bg-primary/15 border border-primary/30 rounded-full px-4 py-2 backdrop-blur-sm"
+                className="flex items-center gap-2 bg-gradient-to-br from-gray-800/60 via-gray-800/40 to-gray-900/60 backdrop-blur-xl border border-primary/20 rounded-full px-4 py-2 shadow-lg shadow-primary/10"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
@@ -155,19 +182,19 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
                 className="flex items-center gap-2"
               >
                 {activeFilters.map((filterId, index) => {
-                  const category = categories.find(cat => cat.id === filterId);
+                  const category = categoryList.find(cat => cat.id === filterId);
                   return (
                     <motion.div
                       key={filterId}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-3 py-1"
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      className="flex items-center gap-1 bg-gradient-to-br from-primary/20 to-emerald-500/20 backdrop-blur-sm border border-primary/30 rounded-full px-3 py-1"
                     >
+                      <Sparkles className="w-3 h-3 text-primary" />
                       <span className="text-primary text-xs font-medium">
                         {category?.name}
                       </span>
@@ -178,34 +205,6 @@ const ProjectFilters = ({ onFilterChange, activeFilters }) => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-
-      {/* Efectos de partículas sutiles verdes - RESPETANDO TUS COLORES */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-0.5 h-0.5 bg-primary/30 rounded-full"
-            initial={{ 
-              opacity: 0,
-              scale: 0
-            }}
-            animate={{ 
-              opacity: [0, 0.6, 0],
-              scale: [0, 1, 0]
-            }}
-            transition={{ 
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 1,
-              ease: "easeInOut"
-            }}
-            style={{
-              left: `${45 + (Math.random() * 10)}%`,
-              top: `${50 + (Math.random() * 10 - 5)}%`
-            }}
-          />
-        ))}
       </div>
     </motion.div>
   );

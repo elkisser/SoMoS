@@ -157,14 +157,30 @@ const Navbar = () => {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           scrolled 
-            ? 'bg-nav/95 backdrop-blur-lg shadow-2xl shadow-black/30 border-b border-primary/10 py-2' 
+            ? 'bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl shadow-2xl shadow-black/30 border-b border-primary/20 py-2' 
             : 'bg-transparent py-4'
         )}
-        style={{ zIndex: 1000 }} // Asegurar z-index alto
+        style={{ zIndex: 1000 }}
       >
-        <div className="container mx-auto px-4 lg:px-8">
+        {/* Efecto de brillo animado cuando está scrolled */}
+        {scrolled && (
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"
+            animate={{
+              x: ['-100%', '200%'],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: "linear"
+            }}
+          />
+        )}
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex justify-between items-center">
-            {/* Logo */}
+            {/* Logo Premium */}
             <motion.a
               href="/"
               className="flex items-center gap-3 group"
@@ -198,7 +214,7 @@ const Navbar = () => {
               </div>
             </motion.a>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation Premium */}
             <div className="hidden lg:flex items-center space-x-1">
               {navigationItems.map((item, index) => (
                 <motion.a
@@ -214,10 +230,10 @@ const Navbar = () => {
                     }
                   }}
                   className={cn(
-                    "relative px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm",
+                    "relative px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm group",
                     activeSection === item.section
                       ? "text-primary font-semibold"
-                      : "text-gray-300 hover:text-white hover:bg-white/5"
+                      : "text-gray-300 hover:text-white hover:bg-gradient-to-br hover:from-gray-800/30 hover:to-gray-900/30"
                   )}
                   whileHover={{ y: -2 }}
                   whileTap={{ y: 0 }}
@@ -239,26 +255,43 @@ const Navbar = () => {
                       />
                     </motion.div>
                   )}
+                  {/* Efecto de brillo en hover */}
+                  {activeSection !== item.section && (
+                    <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/0 via-primary/5 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  )}
                 </motion.a>
               ))}
               
-              {/* CTA Button */}
+              {/* CTA Button Premium */}
               <motion.a
                 href="/contacto"
-                className="ml-4 px-6 py-2 bg-gradient-to-r from-primary to-primary/80 text-background rounded-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 text-sm"
+                className="ml-4 px-6 py-2 bg-gradient-to-r from-primary via-emerald-500 to-primary text-background rounded-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 text-sm relative overflow-hidden group"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.5 }}
               >
-                Hablemos
+                {/* Efecto de brillo animado */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{
+                    x: ['-100%', '200%'],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 1,
+                    ease: "linear"
+                  }}
+                />
+                <span className="relative z-10">Hablemos</span>
               </motion.a>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button Premium */}
             <motion.button
-              className="lg:hidden p-2 rounded-lg border border-gray-600 hover:border-primary/50 transition-colors duration-300"
+              className="lg:hidden p-2 rounded-lg bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm border border-primary/10 hover:border-primary/30 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -274,7 +307,7 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Premium */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
@@ -287,15 +320,29 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             />
             
-            {/* Menu Content */}
+            {/* Menu Content Premium */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed top-0 right-0 bottom-0 w-80 z-50 bg-nav border-l border-gray-700 shadow-2xl lg:hidden"
+              className="fixed top-0 right-0 bottom-0 w-80 z-50 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border-l border-primary/20 shadow-2xl lg:hidden"
             >
-              <div className="p-6 pt-20 h-full overflow-y-auto">
+              {/* Efecto de brillo animado */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"
+                animate={{
+                  x: ['-100%', '200%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                  ease: "linear"
+                }}
+              />
+
+              <div className="p-6 pt-20 h-full overflow-y-auto relative z-10">
                 {/* Navigation Links */}
                 <div className="space-y-2">
                   {navigationItems.map((item, index) => (
@@ -309,42 +356,57 @@ const Navbar = () => {
                         }
                       }}
                       className={cn(
-                        "block px-4 py-3 rounded-lg font-medium transition-all duration-300 border-l-2 text-base",
+                        "block px-4 py-3 rounded-lg font-medium transition-all duration-300 border-l-2 text-base group relative overflow-hidden",
                         activeSection === item.section
-                          ? "text-primary bg-primary/10 border-primary"
-                          : "text-gray-300 border-transparent hover:text-white hover:bg-white/5"
+                          ? "text-primary bg-gradient-to-r from-primary/10 to-primary/5 border-primary"
+                          : "text-gray-300 border-transparent hover:text-white hover:bg-gradient-to-r hover:from-gray-800/30 hover:to-gray-900/30"
                       )}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
-                      {item.name}
+                      {/* Efecto de brillo en hover */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/5 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <span className="relative z-10">{item.name}</span>
                     </motion.a>
                   ))}
                 </div>
 
-                {/* CTA Button Mobile */}
+                {/* CTA Button Mobile Premium */}
                 <motion.a
                   href="/contacto"
-                  className="block w-full mt-6 px-6 py-3 bg-gradient-to-r from-primary to-primary/80 text-background rounded-lg font-semibold text-center shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
+                  className="block w-full mt-6 px-6 py-3 bg-gradient-to-r from-primary via-emerald-500 to-primary text-background rounded-lg font-semibold text-center shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 relative overflow-hidden group"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.5 }}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Hablemos
+                  {/* Efecto de brillo animado */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    animate={{
+                      x: ['-100%', '200%'],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      repeatDelay: 1,
+                      ease: "linear"
+                    }}
+                  />
+                  <span className="relative z-10">Hablemos</span>
                 </motion.a>
 
-                {/* Contact Info */}
+                {/* Contact Info Premium */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.7 }}
-                  className="mt-8 pt-6 border-t border-gray-700"
+                  className="mt-8 pt-6 border-t border-primary/20"
                 >
                   <p className="text-sm text-gray-400 mb-2">¿Preguntas?</p>
                   <a 
-                    href="mailto:hola@somos.com" 
+                    href="mailto:somos.env@gmail.com" 
                     className="text-primary hover:underline text-sm"
                     onClick={() => setMobileMenuOpen(false)}
                   >
