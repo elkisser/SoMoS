@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/Navbar.jsx';
 import ContactForm from '../components/ContactForm.jsx';
+import ContactHero from '../components/ContactHero.jsx';
 import Footer from '../components/Footer.jsx';
 import FloatingWhatsApp from '../components/FloatingWhatsApp.jsx';
 import '../styles/base.css';
@@ -17,13 +18,16 @@ import '../styles/animations.css';
   </head>
   <body class="bg-background text-text flex flex-col min-h-screen">
     <Navbar client:load />
-    
-    <main class="flex-grow pt-24 pb-16">
-      <div class="container mx-auto px-4">
+
+    <main class="pt-28 pb-20 flex-grow overflow-x-hidden">
+      <div class="container mx-auto px-4 sm:px-6">
+        <ContactHero client:load />
+
+        {/* Contact Form */}
         <ContactForm client:load />
       </div>
     </main>
-    
+
     <FloatingWhatsApp client:load />
     <Footer client:load />
   </body>

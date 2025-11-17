@@ -90,7 +90,7 @@ const Hero = () => {
       {/* Grid Pattern más sutil en móvil */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,136,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,136,0.02)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
 
-      <div className="container mx-auto px-4 md:px-6 pb-16 md:py-0 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 pb-16 md:pt-10 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           
           {/* Columna Izquierda - Contenido Principal */}

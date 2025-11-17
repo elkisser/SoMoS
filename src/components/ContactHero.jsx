@@ -1,26 +1,26 @@
 import { motion } from 'framer-motion';
-import { Sparkles, TrendingUp, Award, Zap } from 'lucide-react';
+import { Sparkles, Mail, MessageSquare, Clock } from 'lucide-react';
 
-const WorksHero = ({ projectsCount }) => {
+const ContactHero = () => {
   const stats = [
     {
-      number: `${projectsCount}+`,
-      label: 'Proyectos Entregados',
-      icon: TrendingUp,
+      number: '< 24h',
+      label: 'Tiempo de Respuesta',
+      icon: Clock,
       gradient: 'from-emerald-400 to-green-500',
       delay: 0
     },
     {
       number: '100%',
-      label: 'Clientes Satisfechos',
-      icon: Award,
+      label: 'Disponibilidad',
+      icon: MessageSquare,
       gradient: 'from-green-400 to-emerald-500',
       delay: 0
     },
     {
-      number: '3',
-      label: 'Áreas de Especialización',
-      icon: Zap,
+      number: '24/7',
+      label: 'Soporte',
+      icon: Mail,
       gradient: 'from-emerald-500 to-green-400',
       delay: 0
     }
@@ -54,7 +54,7 @@ const WorksHero = ({ projectsCount }) => {
             <Sparkles className="w-4 h-4 text-primary" />
           </motion.div>
           <span className="text-sm font-semibold bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent">
-            Portfolio SoMoS
+            Contacto SoMoS
           </span>
         </motion.div>
         
@@ -65,9 +65,9 @@ const WorksHero = ({ projectsCount }) => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
         >
-          <span className="block mb-2">Nuestros</span>
+          <span className="block mb-2">Hablemos de tu</span>
           <span className="bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
-            Trabajos
+            Proyecto
           </span>
         </motion.h1>
         
@@ -90,9 +90,9 @@ const WorksHero = ({ projectsCount }) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4"
         >
-          Donde las <span className="text-primary font-semibold">ideas</span> toman forma. 
-          En SoMoS transformamos <span className="text-emerald-400 font-semibold">visiones</span> en realidades digitales 
-          que impulsan negocios y crean experiencias <span className="text-primary font-semibold">memorables</span>.
+          ¿Tienes una <span className="text-primary font-semibold">idea innovadora</span>? 
+          En SoMoS transformamos <span className="text-emerald-400 font-semibold">visiones</span> en realidades digitales. 
+          Completa el formulario y te contactaremos en menos de <span className="text-primary font-semibold">24 horas</span>.
         </motion.p>
       </motion.div>
 
@@ -176,5 +176,5 @@ const WorksHero = ({ projectsCount }) => {
   );
 };
 
-export default WorksHero;
+export default ContactHero;
 

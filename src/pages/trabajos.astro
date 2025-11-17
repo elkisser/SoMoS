@@ -22,8 +22,8 @@ import "../styles/animations.css";
   <body class="bg-background text-text flex flex-col min-h-screen">
     <Navbar client:load />
 
-    <main class="pt-28 pb-20 flex-grow">
-      <div class="container mx-auto px-6">
+    <main class="pt-28 pb-20 flex-grow overflow-x-hidden">
+      <div class="container mx-auto px-4 sm:px-6">
         <WorksHero projectsCount={projects.length} client:load />
 
         {/* Projects Grid */}
