@@ -5,24 +5,23 @@ import { getFeaturedProjects, getProjectsStats } from '../utils/projects-data';
 
 const Hero = () => {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
-  const [hoveredProject, setHoveredProject] = useState(null);
   const [featuredProjects] = useState(() => getFeaturedProjects());
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof globalThis.window !== 'undefined') {
       const checkMobile = () => {
-        const mobile = window.innerWidth < 768;
+        const mobile = globalThis.window.innerWidth < 768;
         setIsMobile(mobile);
         setDimensions({ 
-          width: window.innerWidth, 
-          height: window.innerHeight 
+          width: globalThis.window.innerWidth, 
+          height: globalThis.window.innerHeight 
         });
       };
       
       checkMobile();
-      window.addEventListener('resize', checkMobile);
-      return () => window.removeEventListener('resize', checkMobile);
+      globalThis.window.addEventListener('resize', checkMobile);
+      return () => globalThis.window.removeEventListener('resize', checkMobile);
     }
   }, []);
 
@@ -66,9 +65,9 @@ const Hero = () => {
       
       {/* Efectos de Partículas - Optimizado para móvil */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(isMobile ? 6 : 15)].map((_, i) => (
+        {[...new Array(isMobile ? 6 : 15)].map((_, i) => (
           <motion.div
-            key={i}
+            key={`particle-${i}`}
             className="absolute w-1 h-1 bg-primary rounded-full"
             initial={{
               x: Math.random() * dimensions.width,
@@ -208,6 +207,95 @@ const Hero = () => {
               ))}
             </motion.div>
           </div>
+
+          {/* Proyecto Destacado en Móvil */}
+          {isMobile && layout.mainProject && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="mt-8 w-full"
+            >
+              <div className="text-center mb-4">
+                <h2 className="text-lg font-bold text-white mb-1">
+                  Trabajo <span className="text-primary">destacado</span>
+                </h2>
+                <p className="text-gray-400 text-xs">
+                  Ejemplo real de lo que podemos lograr
+                </p>
+              </div>
+
+              <motion.a
+                href={layout.mainProject.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative bg-gradient-to-br from-gray-800/40 to-gray-900/60 backdrop-blur-lg rounded-2xl border border-primary/30 overflow-hidden hover:border-primary/50 transition-all duration-500 cursor-pointer block"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="absolute top-3 right-3 z-30">
+                  <div className="flex items-center gap-1 bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-full text-xs border border-white/20">
+                    <ExternalLink className="w-3 h-3" />
+                    <span>Ver</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-3 left-3 z-20">
+                  <div className="flex items-center gap-1 bg-primary/20 text-primary px-2 py-1 rounded-full text-xs font-semibold border border-primary/30">
+                    <ShoppingCart className="w-3 h-3" />
+                    <span>{getMainTag(layout.mainProject)}</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-12 left-3 z-20">
+                  <div className="flex items-center gap-1 bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full text-xs border border-yellow-500/30">
+                    <Star className="w-3 h-3" />
+                    <span>DESTACADO</span>
+                  </div>
+                </div>
+
+                <div className="relative aspect-video overflow-hidden">
+                  <video
+                    className="w-full h-full object-cover transition-transform duration-700 group-active:scale-110"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  >
+                    <source src={layout.mainProject.video} type="video/mp4" />
+                  </video>
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/50 to-transparent">
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <h3 className="text-base font-bold text-white mb-1 group-active:text-primary transition-colors duration-300">
+                        {layout.mainProject.name.replace(/^[^\w\s]+\s/, '')}
+                      </h3>
+                      <p className="text-gray-300 text-xs line-clamp-2 leading-relaxed">
+                        {layout.mainProject.description.split(' ').slice(0, 15).join(' ')}...
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.a>
+
+              {/* CTA Móvil */}
+              <motion.div
+                className="text-center mt-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+              >
+                <motion.a
+                  href="/contacto"
+                  className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors duration-300 text-sm font-semibold"
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Conversemos sobre tu idea
+                  <ArrowRight className="w-3 h-3" />
+                </motion.a>
+              </motion.div>
+            </motion.div>
+          )}
 
           {/* Columna Derecha - Proyectos Destacados (Oculta en móviles pequeños) */}
           {!isMobile && (
