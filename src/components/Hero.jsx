@@ -7,8 +7,10 @@ const Hero = () => {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [featuredProjects] = useState(() => getFeaturedProjects());
   const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     if (typeof globalThis.window !== 'undefined') {
       const checkMobile = () => {
         const mobile = globalThis.window.innerWidth < 768;
@@ -63,28 +65,38 @@ const Hero = () => {
       <div className="absolute inset-0 bg-background"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5"></div>
       
-      {/* Efectos de Partículas - Optimizado para móvil */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...new Array(isMobile ? 6 : 15)].map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute w-1 h-1 bg-primary rounded-full"
-            initial={{
-              x: Math.random() * dimensions.width,
-              y: Math.random() * dimensions.height,
-            }}
-            animate={{
-              y: [0, -15, 0],
-              opacity: [0, 0.4, 0],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+      {/* Efectos de Partículas - Optimizado para móvil - Solo en cliente */}
+      {isMounted && (
+        <div className="absolute inset-0 overflow-hidden">
+          {[...new Array(isMobile ? 6 : 15)].map((_, i) => {
+            const randomX = Math.random() * dimensions.width;
+            const randomY = Math.random() * dimensions.height;
+            const randomDuration = 4 + Math.random() * 2;
+            const randomDelay = Math.random() * 2;
+            
+            return (
+              <motion.div
+                key={`particle-${i}`}
+                className="absolute w-1 h-1 bg-primary rounded-full"
+                initial={{
+                  x: randomX,
+                  y: randomY,
+                  opacity: 0,
+                }}
+                animate={{
+                  y: [randomY, randomY - 15, randomY],
+                  opacity: [0, 0.4, 0],
+                }}
+                transition={{
+                  duration: randomDuration,
+                  repeat: Infinity,
+                  delay: randomDelay,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
 
       {/* Grid Pattern más sutil en móvil */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,136,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,136,0.02)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
