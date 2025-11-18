@@ -54,29 +54,6 @@ const FloatingWhatsApp = () => {
         {/* Partículas decorativas */}
         <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <div className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 bg-emerald-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-        {/* Badge de notificación animado */}
-        <motion.div
-          className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-primary to-emerald-500 rounded-full border-2 border-gray-900 flex items-center justify-center"
-          animate={{ 
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ 
-            duration: 1.5, 
-            repeat: Infinity 
-          }}
-        >
-          <motion.div
-            className="w-2 h-2 bg-white rounded-full"
-            animate={{ 
-              opacity: [1, 0.5, 1],
-            }}
-            transition={{ 
-              duration: 1, 
-              repeat: Infinity 
-            }}
-          />
-        </motion.div>
       </div>
 
       {/* Tooltip premium */}

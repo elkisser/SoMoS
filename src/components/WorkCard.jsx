@@ -1,7 +1,41 @@
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const WorkCard = ({ project, index }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const videoRef = useRef(null);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            // Cargar video solo cuando está visible
+            setTimeout(() => setShouldLoad(true), 100);
+            if (videoRef.current) {
+              videoRef.current.load();
+            }
+          }
+        });
+      },
+      { rootMargin: '50px' }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
   const handleClick = () => {
     if (project.link && typeof window !== 'undefined') {
       window.open(project.link, '_blank');
@@ -10,6 +44,7 @@ const WorkCard = ({ project, index }) => {
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 50, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ 
@@ -31,18 +66,26 @@ const WorkCard = ({ project, index }) => {
         {/* Efecto de brillo en hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/5 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out z-20"></div>
 
-        {/* Video de portada */}
-        <div className="relative w-full h-48 overflow-hidden">
-          {project.video ? (
+        {/* Video de portada con lazy loading */}
+        <div className="relative w-full h-48 overflow-hidden bg-gradient-to-br from-gray-800/40 to-gray-900/60">
+          {project.video && shouldLoad ? (
             <video
+              ref={videoRef}
               className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 relative z-10"
               autoPlay
               muted
               loop
               playsInline
+              preload="none"
             >
               <source src={project.video} type="video/mp4" />
             </video>
+          ) : project.video ? (
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-emerald-500/10 flex items-center justify-center">
+              <div className="text-2xl font-bold bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
+                Cargando...
+              </div>
+            </div>
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-emerald-500/10 flex items-center justify-center">
               <div className="text-4xl font-bold bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">

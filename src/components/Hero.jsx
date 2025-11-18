@@ -311,6 +311,7 @@ const Hero = () => {
                     muted
                     loop
                     playsInline
+                    preload="none"
                   >
                     <source src={layout.mainProject.video} type="video/mp4" />
                   </video>
@@ -409,6 +410,7 @@ const Hero = () => {
                         muted
                         loop
                         playsInline
+                        preload="none"
                       >
                         <source src={layout.mainProject.video} type="video/mp4" />
                       </video>
@@ -454,6 +456,7 @@ const Hero = () => {
                             muted
                             loop
                             playsInline
+                            preload="none"
                           >
                             <source src={project.video} type="video/mp4" />
                           </video>
